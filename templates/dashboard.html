@@ -8,146 +8,75 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#060810;color:#C9D1D9;
      font-family:'Courier New',monospace}
-
-/* ── Header ── */
-header{
-  background:#0D1117;
-  border-bottom:2px solid #FF6B35;
-  padding:14px 24px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  position:sticky;top:0;z-index:100
-}
+header{background:#0D1117;
+       border-bottom:2px solid #FF6B35;
+       padding:14px 24px;
+       display:flex;
+       justify-content:space-between;
+       align-items:center;
+       position:sticky;top:0;z-index:100}
 header h1{color:#FF6B35;font-size:17px}
 .header-right{
-  display:flex;gap:16px;align-items:center
-}
-.live-dot{
-  width:8px;height:8px;
-  background:#00FFB2;
-  border-radius:50%;
-  animation:pulse 2s infinite
-}
+  display:flex;gap:16px;align-items:center}
+.live-dot{width:8px;height:8px;
+  background:#00FFB2;border-radius:50%;
+  animation:pulse 2s infinite}
 @keyframes pulse{
-  0%{opacity:1}50%{opacity:0.3}100%{opacity:1}
-}
-.refresh-timer{
-  font-size:11px;color:#8B949E
-}
-
-/* ── Stats Grid ── */
-.stats{
-  display:grid;
+  0%{opacity:1}50%{opacity:0.3}
+  100%{opacity:1}}
+.stats{display:grid;
   grid-template-columns:repeat(5,1fr);
-  gap:12px;padding:18px 24px
-}
-.card{
-  background:#0D1117;
+  gap:12px;padding:18px 24px}
+.card{background:#0D1117;
   border:1px solid #1C2333;
-  border-radius:10px;
-  padding:16px;text-align:center;
-  transition:border 0.3s
-}
+  border-radius:10px;padding:16px;
+  text-align:center;transition:border 0.3s}
 .card:hover{border-color:#FF6B3566}
-.card .val{
-  font-size:26px;font-weight:bold;
-  margin-bottom:4px
-}
-.card .lbl{
-  font-size:10px;color:#8B949E;
-  letter-spacing:1px
-}
-
-/* ── Sections ── */
+.card .val{font-size:26px;font-weight:bold;
+  margin-bottom:4px}
+.card .lbl{font-size:10px;color:#8B949E;
+  letter-spacing:1px}
 .sec{padding:0 24px 24px}
-.sec-title{
-  font-size:11px;color:#FF6B35;
-  letter-spacing:2px;
-  margin-bottom:14px;
+.sec-title{font-size:11px;color:#FF6B35;
+  letter-spacing:2px;margin-bottom:14px;
   padding:16px 0 8px;
-  border-bottom:1px solid #1C2333
-}
-
-/* ── Satellite Cards ── */
-.sat-card{
-  background:#0D1117;
+  border-bottom:1px solid #1C2333}
+.sat-card{background:#0D1117;
   border:1px solid #1C2333;
-  border-radius:12px;
-  margin-bottom:18px;
-  overflow:hidden;
-  transition:border 0.3s
-}
+  border-radius:12px;margin-bottom:18px;
+  overflow:hidden;transition:border 0.3s}
 .sat-card:hover{border-color:#FF6B3544}
-.sat-header{
-  padding:14px 18px;
-  display:flex;
-  justify-content:space-between;
+.sat-header{padding:14px 18px;
+  display:flex;justify-content:space-between;
   align-items:center;
   border-bottom:1px solid #1C2333;
-  flex-wrap:wrap;gap:8px
-}
-.sat-name{
-  font-size:15px;font-weight:bold;color:white
-}
-.sat-meta{font-size:11px;color:#8B949E;margin-top:3px}
-
-/* ── Table ── */
+  flex-wrap:wrap;gap:8px}
+.sat-name{font-size:15px;font-weight:bold;
+  color:white}
+.sat-meta{font-size:11px;color:#8B949E;
+  margin-top:3px}
 table{width:100%;border-collapse:collapse}
-th{
-  background:#161B22;color:#8B949E;
+th{background:#161B22;color:#8B949E;
   font-size:10px;letter-spacing:1px;
-  padding:9px 14px;text-align:left
-}
-td{
-  padding:10px 14px;font-size:12px;
+  padding:9px 14px;text-align:left}
+td{padding:10px 14px;font-size:12px;
   border-bottom:1px solid #1C2333;
-  transition:background 0.2s
-}
+  transition:background 0.2s}
 tr:hover td{background:#161B2244}
-
-/* ── Score Bar ── */
-.bar-wrap{
-  display:inline-flex;
-  align-items:center;gap:8px
-}
-.bar-bg{
-  background:#1C2333;border-radius:4px;
+.bar-wrap{display:inline-flex;
+  align-items:center;gap:8px}
+.bar-bg{background:#1C2333;border-radius:4px;
   height:6px;width:70px;
-  display:inline-block;vertical-align:middle
-}
-.bar-fill{
-  height:6px;border-radius:4px;
-  transition:width 0.5s
-}
-
-/* ── Badge ── */
-.badge{
-  padding:3px 9px;border-radius:10px;
-  font-size:10px;font-weight:bold
-}
-
-/* ── Chart Box ── */
-.chart-box{
-  padding:16px;background:#0D1117
-}
-
-/* ── History ── */
-.hist-stats{
-  display:grid;
+  display:inline-block;vertical-align:middle}
+.bar-fill{height:6px;border-radius:4px;
+  transition:width 0.5s}
+.badge{padding:3px 9px;border-radius:10px;
+  font-size:10px;font-weight:bold}
+.ml-prob{font-size:15px;font-weight:bold}
+.chart-box{padding:16px;background:#0D1117}
+.hist-stats{display:grid;
   grid-template-columns:1fr 1fr;
-  gap:12px;margin-bottom:14px
-}
-
-/* ── Footer ── */
-footer{
-  text-align:center;padding:16px;
-  color:#8B949E;font-size:10px;
-  border-top:1px solid #1C2333;
-  margin-top:10px
-}
-
-/* ── Alert Banner ── */
+  gap:12px;margin-bottom:14px}
 .alert-banner{
   background:rgba(255,71,87,0.1);
   border:1px solid #FF4757;
@@ -155,19 +84,34 @@ footer{
   padding:12px 18px;
   margin:0 24px 16px;
   font-size:12px;color:#FF4757;
-  display:flex;gap:10px;align-items:center
-}
+  display:flex;gap:10px;align-items:center}
+.ml-badge{
+  background:rgba(129,140,248,0.1);
+  border:1px solid #818CF844;
+  border-radius:6px;
+  padding:2px 8px;
+  font-size:10px;color:#818CF8;
+  margin-left:8px}
+footer{text-align:center;padding:16px;
+  color:#8B949E;font-size:10px;
+  border-top:1px solid #1C2333;
+  margin-top:10px}
 </style>
 </head>
 <body>
 
-<!-- Header -->
 <header>
-  <h1>🛰️ DebrisWatch AI — ISRO Satellite Monitor</h1>
+  <h1>
+    🛰️ DebrisWatch AI — ISRO Monitor
+    <span class="ml-badge">
+      ML ACTIVE — Random Forest
+    </span>
+  </h1>
   <div class="header-right">
     <div class="live-dot"></div>
-    <span class="refresh-timer" id="timer">
-      Next refresh in 300s
+    <span style="color:#8B949E;font-size:11px"
+          id="timer">
+      Refresh in 300s
     </span>
     <span style="color:#8B949E;font-size:11px">
       {{ data.generated }}
@@ -175,37 +119,35 @@ footer{
   </div>
 </header>
 
-<!-- Alert Banner if high risk -->
 {% for sat in data.satellites %}
-  {% if sat.top_score >= 60 %}
+  {% if sat.top_ml_prob >= 60 %}
   <div class="alert-banner">
-    ⚠️ ALERT: {{ sat.name }} has a
-    {{ sat.top_label }} threat —
-    Risk Score {{ sat.top_score }}/100.
-    Immediate attention required.
+    ⚠️ ML ALERT: {{ sat.name }} —
+    {{ sat.top_ml_prob }}% collision
+    probability detected.
+    Immediate review recommended.
   </div>
   {% endif %}
 {% endfor %}
 
-<!-- Top Stats -->
 <div class="stats">
   <div class="card">
     <div class="val" style="color:#00FFB2">
       {{ data.total_sats }}
     </div>
-    <div class="lbl">SATELLITES MONITORED</div>
+    <div class="lbl">SATELLITES</div>
   </div>
   <div class="card">
     <div class="val" style="color:#FF4757">
       {{ data.total_high }}
     </div>
-    <div class="lbl">HIGH RISK THREATS</div>
+    <div class="lbl">HIGH RISK</div>
   </div>
   <div class="card">
     <div class="val" style="color:#34D399">
       {{ data.total_safe }}
     </div>
-    <div class="lbl">SAFE OBJECTS</div>
+    <div class="lbl">SAFE</div>
   </div>
   <div class="card">
     <div class="val" style="color:#818CF8">
@@ -215,16 +157,16 @@ footer{
   </div>
   <div class="card">
     <div class="val" style="color:#F59E0B">
-      72h
+      {{ data.ml_stats.trees }}
     </div>
-    <div class="lbl">PREDICTION WINDOW</div>
+    <div class="lbl">ML TREES ACTIVE</div>
   </div>
 </div>
 
-<!-- Satellites -->
 <div class="sec">
   <div class="sec-title">
     🛰️ INDIAN SATELLITE THREAT STATUS
+    — ML COLLISION PROBABILITY
   </div>
 
   {% for sat in data.satellites %}
@@ -234,46 +176,52 @@ footer{
          style="background:{{ sat.color }}08">
       <div>
         <div class="sat-name">
-          <span style="color:{{ sat.color }}">●</span>
+          <span style="color:{{ sat.color }}">
+            ●
+          </span>
           {{ sat.name }}
           <span style="color:#8B949E;
-                font-size:11px;font-weight:normal">
+            font-size:11px;font-weight:normal">
             — {{ sat.purpose }}
           </span>
         </div>
         <div class="sat-meta">
-          Altitude: {{ sat.altitude }} km &nbsp;|&nbsp;
-          High Risk Debris: {{ sat.high }}
-          &nbsp;|&nbsp; Safe: {{ sat.safe }}
+          Altitude: {{ sat.altitude }} km
+          &nbsp;|&nbsp;
+          High Risk: {{ sat.high }}
+          &nbsp;|&nbsp;
+          Safe: {{ sat.safe }}
         </div>
       </div>
-      <span class="badge"
-            style="background:{{sat.top_color}}22;
-                   color:{{sat.top_color}};
-                   border:1px solid
-                   {{sat.top_color}}44;
-                   font-size:12px;
-                   padding:5px 14px">
-        {{ sat.top_label }} — {{ sat.top_score }}/100
-      </span>
+      <div style="text-align:right">
+        <div class="ml-prob"
+             style="color:{{ sat.top_color }}">
+          {{ sat.top_ml_prob }}%
+        </div>
+        <div style="font-size:10px;
+                    color:#8B949E">
+          ML collision probability
+        </div>
+      </div>
     </div>
 
     <table>
       <thead>
         <tr>
-          <th>DEBRIS OBJECT</th>
-          <th>RISK SCORE</th>
-          <th>THREAT LEVEL</th>
+          <th>DEBRIS</th>
+          <th>RULE SCORE</th>
+          <th>ML PROBABILITY</th>
+          <th>LEVEL</th>
           <th>CLOSEST (km)</th>
           <th>TIME TO TCA</th>
-          <th>RECOMMENDED ACTION</th>
+          <th>ACTION</th>
         </tr>
       </thead>
       <tbody>
       {% for d in sat.debris %}
       <tr>
         <td style="color:white;font-weight:bold">
-          <span style="color:{{ d.graph_color }}">
+          <span style="color:{{d.graph_color}}">
             ●
           </span>
           {{ d.name }}
@@ -293,12 +241,22 @@ footer{
           </div>
         </td>
         <td>
+          <span class="ml-prob"
+                style="color:{{ d.ml_color }}">
+            {{ d.ml_prob }}%
+          </span>
+          <span style="color:#8B949E;
+                       font-size:10px">
+            risk
+          </span>
+        </td>
+        <td>
           <span class="badge"
-            style="background:{{d.risk_color}}22;
-                   color:{{d.risk_color}};
+            style="background:{{d.ml_color}}22;
+                   color:{{d.ml_color}};
                    border:1px solid
-                   {{d.risk_color}}44">
-            {{ d.label }}
+                   {{d.ml_color}}44">
+            {{ d.ml_label }}
           </span>
         </td>
         <td style="color:white">
@@ -308,16 +266,16 @@ footer{
           T+{{ d.min_hour }}h
         </td>
         <td style="font-size:11px">
-          {% if d.score >= 80 %}
+          {% if d.ml_prob >= 70 %}
             <span style="color:#FF4757;
                          font-weight:bold">
               ⚠️ MANEUVER NOW
             </span>
-          {% elif d.score >= 60 %}
+          {% elif d.ml_prob >= 50 %}
             <span style="color:#FF6B35">
               🔶 PREPARE MANEUVER
             </span>
-          {% elif d.score >= 40 %}
+          {% elif d.ml_prob >= 30 %}
             <span style="color:#F59E0B">
               👁️ MONITOR CLOSELY
             </span>
@@ -340,12 +298,10 @@ footer{
   {% endfor %}
 </div>
 
-<!-- History -->
 <div class="sec">
   <div class="sec-title">
     📈 RISK HISTORY — LAST 7 DAYS
   </div>
-
   <div class="hist-stats">
     <div class="card">
       <div class="val" style="color:#818CF8">
@@ -359,15 +315,16 @@ footer{
         {{ data.highest[2] }}/100
       </div>
       <div class="lbl">
-        HIGHEST RISK EVER — {{ data.highest[0] }}
+        HIGHEST EVER — {{ data.highest[0] }}
       </div>
       {% else %}
-      <div class="val" style="color:#34D399">—</div>
+      <div class="val" style="color:#34D399">
+        —
+      </div>
       <div class="lbl">HIGHEST RISK EVER</div>
       {% endif %}
     </div>
   </div>
-
   {% if data.total_scans > 1 %}
   <div class="chart-box"
        style="border:1px solid #1C2333;
@@ -381,37 +338,58 @@ footer{
               padding:30px;text-align:center;
               color:#8B949E;font-size:12px">
     Run the app a few more times and
-    your risk history will appear here
-    automatically 📊
+    history will appear here 📊
   </div>
   {% endif %}
 </div>
 
+<div class="sec">
+  <div class="sec-title">
+    🤖 ML MODEL INFO
+  </div>
+  <div style="display:grid;
+              grid-template-columns:repeat(3,1fr);
+              gap:12px">
+    <div class="card">
+      <div class="val" style="color:#818CF8">
+        {{ data.ml_stats.type }}
+      </div>
+      <div class="lbl">MODEL TYPE</div>
+    </div>
+    <div class="card">
+      <div class="val" style="color:#00FFB2">
+        {{ data.ml_stats.trees }}
+      </div>
+      <div class="lbl">DECISION TREES</div>
+    </div>
+    <div class="card">
+      <div class="val" style="color:#F59E0B">
+        {{ data.ml_stats.features }}
+      </div>
+      <div class="lbl">INPUT FEATURES</div>
+    </div>
+  </div>
+</div>
+
 <footer>
   DebrisWatch AI &nbsp;|&nbsp;
-  Monitoring: CARTOSAT-3, RESOURCESAT-2,
+  CARTOSAT-3, RESOURCESAT-2,
   RISAT-2BR1, OCEANSAT-3, GSAT-19
   &nbsp;|&nbsp;
-  Data: NASA Space-Track
-  &nbsp;|&nbsp;
-  Extends ISRO Project NETRA
+  NASA Space-Track + Random Forest ML
   &nbsp;|&nbsp;
   Built by CSE Student 🛰️
 </footer>
 
 <script>
-// ── Auto refresh countdown ──────────────
-var secs = 300;
+var secs  = 300;
 var timer = document.getElementById("timer");
 setInterval(function(){
   secs--;
-  if(secs <= 0){
-    window.location.reload();
-  }
-  timer.textContent = "Next refresh in " + secs + "s";
+  if(secs <= 0){ window.location.reload(); }
+  timer.textContent = "Refresh in " + secs + "s";
 }, 1000);
 
-// ── Satellite distance charts ────────────
 var allSats = {{ data.satellites | tojson }};
 var hours   = [];
 for(var i=0;i<=72;i++) hours.push("T+"+i+"h");
@@ -419,7 +397,8 @@ for(var i=0;i<=72;i++) hours.push("T+"+i+"h");
 allSats.forEach(function(sat, idx){
   var datasets = sat.debris.map(function(d){
     return {
-      label:           d.name+" ("+d.score+"/100)",
+      label:           d.name +
+                       " (" + d.ml_prob + "% ML)",
       data:            d.hourly,
       borderColor:     d.graph_color,
       backgroundColor: "transparent",
@@ -428,59 +407,45 @@ allSats.forEach(function(sat, idx){
       tension:         0.3
     };
   });
-
   var ctx = document.getElementById(
     "chart_"+(idx+1)
   ).getContext("2d");
-
-  new Chart(ctx, {
-    type: "line",
-    data: { labels: hours, datasets: datasets },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: {
-          labels:{
-            color:"#C9D1D9",
-            font:{size:10},
-            padding:12
-          }
+  new Chart(ctx,{
+    type:"line",
+    data:{labels:hours, datasets:datasets},
+    options:{
+      responsive:true,
+      plugins:{
+        legend:{
+          labels:{color:"#C9D1D9",
+            font:{size:10},padding:12}
         }
       },
-      scales: {
-        x:{
-          ticks:{
-            color:"#8B949E",
-            maxTicksLimit:10,
-            font:{size:9}
-          },
-          grid:{color:"#1C2333"}
-        },
-        y:{
-          ticks:{color:"#8B949E"},
+      scales:{
+        x:{ticks:{color:"#8B949E",
+          maxTicksLimit:10,font:{size:9}},
+          grid:{color:"#1C2333"}},
+        y:{ticks:{color:"#8B949E"},
           grid:{color:"#1C2333"},
-          title:{
-            display:true,
+          title:{display:true,
             text:"Distance (km)",
             color:"#8B949E",
-            font:{size:10}
-          }
-        }
+            font:{size:10}}}
       }
     }
   });
 });
 
-// ── History chart ────────────────────────
 var histData  = {{ data.hist_data  | tojson }};
 var satColors = {{ data.sat_colors | tojson }};
-var histEl    = document.getElementById("histChart");
-
+var histEl    = document.getElementById(
+  "histChart"
+);
 if(histEl && Object.keys(histData).length > 0){
-  var histDatasets = [];
-  var ci = 0;
+  var hds  = [];
+  var ci   = 0;
   for(var sn in histData){
-    histDatasets.push({
+    hds.push({
       label:           sn,
       data:            histData[sn].scores,
       borderColor:     satColors[ci],
@@ -495,38 +460,27 @@ if(histEl && Object.keys(histData).length > 0){
   var allDates = [];
   for(var s in histData){
     histData[s].dates.forEach(function(d){
-      if(allDates.indexOf(d)===-1) allDates.push(d);
+      if(allDates.indexOf(d)===-1)
+        allDates.push(d);
     });
   }
   allDates.sort();
-
   new Chart(histEl.getContext("2d"),{
     type:"line",
-    data:{labels:allDates, datasets:histDatasets},
+    data:{labels:allDates,datasets:hds},
     options:{
       responsive:true,
-      plugins:{
-        legend:{
-          labels:{
-            color:"#C9D1D9",font:{size:10}
-          }
-        }
-      },
+      plugins:{legend:{labels:{
+        color:"#C9D1D9",font:{size:10}}}},
       scales:{
-        x:{
-          ticks:{color:"#8B949E"},
-          grid:{color:"#1C2333"}
-        },
-        y:{
-          min:0, max:100,
-          ticks:{color:"#8B949E"},
-          grid:{color:"#1C2333"},
-          title:{
-            display:true,
-            text:"Max Risk Score",
-            color:"#8B949E"
-          }
-        }
+        x:{ticks:{color:"#8B949E"},
+           grid:{color:"#1C2333"}},
+        y:{min:0,max:100,
+           ticks:{color:"#8B949E"},
+           grid:{color:"#1C2333"},
+           title:{display:true,
+             text:"Max Risk Score",
+             color:"#8B949E"}}
       }
     }
   });

@@ -1,29 +1,29 @@
 from flask import Flask, render_template, jsonify
-from core.orbital  import (
+from core.orbital    import (
     INDIAN_SATELLITES, SAT_COLORS,
     get_sat_position, get_debris_approach
 )
-from core.risk     import (
+from core.risk       import (
     calculate_score, get_risk_label, get_action
 )
-from core.alerts   import generate_report
-from core.database import (
+from core.alerts     import generate_report
+from core.database   import (
     init_db, save_scan,
     get_all_history, get_total_scans,
     get_highest_ever
 )
-from core.ml_model import (
+from core.ml_model   import (
     predict_collision,
     get_model_stats,
     train_model
 )
+from core.email_alert import check_and_alert
 from datetime import datetime
 import numpy as np
 import os
 
 app = Flask(__name__)
 
-# Initialize database + train model on startup
 init_db()
 if not os.path.exists("core/debris_model.pkl"):
     train_model()
@@ -36,7 +36,6 @@ def analyse_satellite(sat_info, color):
 
     debris_results = []
     for d in debris_raw:
-        # Rule based score
         score       = calculate_score(
             d["min_dist"],
             d["min_hour"],
@@ -45,7 +44,6 @@ def analyse_satellite(sat_info, color):
         label, rcol = get_risk_label(score)
         action      = get_action(score)
 
-        # ML prediction
         rel_speed = np.sqrt(sum(
             v**2 for v in d["min_rv"]
         ))
@@ -113,7 +111,7 @@ def run_full_analysis():
     # Save to database
     save_scan(satellites)
 
-    # Alert report
+    # Text alert report
     flat = []
     for sat in satellites:
         for d in sat["debris"]:
@@ -125,6 +123,10 @@ def run_full_analysis():
         key=lambda x: x["ml_prob"], reverse=True
     )
     generate_report(flat)
+
+    # Email alerts
+    print("\n  Checking email alerts...")
+    check_and_alert(satellites)
 
     # History
     history     = get_all_history()
@@ -174,8 +176,8 @@ def api():
 
 if __name__ == "__main__":
     print("\n" + "="*50)
-    print("  DebrisWatch AI — Day 11")
-    print("  ML Collision Probability Active")
+    print("  DebrisWatch AI — Day 12")
+    print("  Email Alert System Active")
     print("  Open: http://127.0.0.1:5000")
     print("="*50 + "\n")
     app.run(debug=True)

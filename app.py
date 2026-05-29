@@ -1,31 +1,31 @@
 from flask import Flask, render_template, jsonify
-from core.orbital    import (
+from core.orbital      import (
     SAT_COLORS, SAT_PURPOSES,
     get_sat_position, get_debris_approach
 )
-from core.risk       import (
+from core.risk         import (
     calculate_score, get_risk_label, get_action
 )
-from core.alerts     import generate_report
-from core.database   import (
+from core.alerts       import generate_report
+from core.database     import (
     init_db, save_scan,
     get_all_history, get_total_scans,
     get_highest_ever
 )
-from core.ml_model   import (
+from core.ml_model     import (
     predict_collision,
     get_model_stats,
     train_model
 )
 from core.email_alert  import check_and_alert
 from core.tle_fetcher  import get_tle_data
+from core.maneuver     import get_maneuver_summary
 from datetime import datetime
 import numpy as np
 import os
 
 app = Flask(__name__)
 
-# Initialize on startup
 init_db()
 if not os.path.exists("core/debris_model.pkl"):
     train_model()
@@ -60,6 +60,17 @@ def analyse_satellite(
             rel_speed   = rel_speed,
             time_to_tca = d["min_hour"],
         )
+
+        # Maneuver calculator
+        maneuver = get_maneuver_summary(
+            sat_name     = sat_name,
+            debris_name  = d["name"],
+            ml_prob      = ml["probability"],
+            sat_altitude = alt,
+            min_dist     = d["min_dist"],
+            min_hour     = d["min_hour"],
+        )
+
         debris_results.append({
             "name":        d["name"],
             "score":       score,
@@ -73,6 +84,7 @@ def analyse_satellite(
             "ml_prob":     ml["probability"],
             "ml_label":    ml["label"],
             "ml_color":    ml["color"],
+            "maneuver":    maneuver,
         })
 
     debris_results.sort(
@@ -81,30 +93,37 @@ def analyse_satellite(
 
     top_score        = debris_results[0]["score"]
     top_label, top_c = get_risk_label(top_score)
-    top_ml_prob = debris_results[0]["ml_prob"]
+    top_ml_prob      = debris_results[0]["ml_prob"]
+
+    # Best maneuver for this satellite
+    top_maneuver = None
+    for d in debris_results:
+        if d["maneuver"]["needed"]:
+            top_maneuver = d["maneuver"]
+            break
 
     return {
-        "name":        sat_name,
-        "purpose":     purpose,
-        "altitude":    alt,
-        "color":       color,
-        "top_score":   top_score,
-        "top_label":   top_label,
-        "top_color":   top_c,
-        "top_ml_prob": top_ml_prob,
-        "debris":      debris_results,
-        "high":        sum(
+        "name":         sat_name,
+        "purpose":      purpose,
+        "altitude":     alt,
+        "color":        color,
+        "top_score":    top_score,
+        "top_label":    top_label,
+        "top_color":    top_c,
+        "top_ml_prob":  top_ml_prob,
+        "debris":       debris_results,
+        "top_maneuver": top_maneuver,
+        "high":         sum(
             1 for d in debris_results
             if d["ml_prob"] >= 50
         ),
-        "safe":        sum(
+        "safe":         sum(
             1 for d in debris_results
             if d["ml_prob"] < 30
         ),
     }
 
 def run_full_analysis():
-    # Get fresh TLE data
     print("\n  Fetching TLE data...")
     sat_tles, debris_list = get_tle_data()
 
@@ -135,7 +154,8 @@ def run_full_analysis():
                 "sat_name": sat["name"]
             })
     flat.sort(
-        key=lambda x: x["ml_prob"], reverse=True
+        key=lambda x: x["ml_prob"],
+        reverse=True
     )
     generate_report(flat)
 
@@ -197,10 +217,9 @@ def ping():
     })
 
 if __name__ == "__main__":
-    import os
     print("\n" + "="*50)
-    print("  DebrisWatch AI — Feature A")
-    print("  Real TLE Auto Download Active")
+    print("  DebrisWatch AI — Feature B")
+    print("  Maneuver Calculator Active")
     print("  Open: http://127.0.0.1:5000")
     print("="*50 + "\n")
     port = int(os.environ.get("PORT", 5000))

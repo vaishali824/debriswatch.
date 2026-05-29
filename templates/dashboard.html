@@ -2,37 +2,47 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport"
+  content="width=device-width,
+           initial-scale=1.0">
 <title>DebrisWatch AI — ISRO</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#060810;color:#C9D1D9;
-     font-family:'Courier New',monospace}
+  font-family:'Courier New',monospace}
 header{background:#0D1117;
-       border-bottom:2px solid #FF6B35;
-       padding:14px 24px;
-       display:flex;
-       justify-content:space-between;
-       align-items:center;
-       position:sticky;top:0;z-index:100}
-header h1{color:#FF6B35;font-size:17px}
-.header-right{
-  display:flex;gap:16px;align-items:center}
+  border-bottom:2px solid #FF6B35;
+  padding:14px 24px;
+  display:flex;justify-content:space-between;
+  align-items:center;flex-wrap:wrap;gap:8px;
+  position:sticky;top:0;z-index:100}
+header h1{color:#FF6B35;font-size:16px}
+.header-right{display:flex;gap:12px;
+  align-items:center;flex-wrap:wrap}
 .live-dot{width:8px;height:8px;
   background:#00FFB2;border-radius:50%;
   animation:pulse 2s infinite}
 @keyframes pulse{
   0%{opacity:1}50%{opacity:0.3}
   100%{opacity:1}}
+.ml-badge{background:rgba(129,140,248,0.1);
+  border:1px solid #818CF844;
+  border-radius:6px;padding:3px 10px;
+  font-size:10px;color:#818CF8}
 .stats{display:grid;
   grid-template-columns:repeat(5,1fr);
   gap:12px;padding:18px 24px}
+@media(max-width:768px){
+  .stats{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:480px){
+  .stats{grid-template-columns:repeat(2,1fr)}}
 .card{background:#0D1117;
   border:1px solid #1C2333;
-  border-radius:10px;padding:16px;
+  border-radius:10px;padding:14px;
   text-align:center;transition:border 0.3s}
 .card:hover{border-color:#FF6B3566}
-.card .val{font-size:26px;font-weight:bold;
+.card .val{font-size:24px;font-weight:bold;
   margin-bottom:4px}
 .card .lbl{font-size:10px;color:#8B949E;
   letter-spacing:1px}
@@ -41,6 +51,11 @@ header h1{color:#FF6B35;font-size:17px}
   letter-spacing:2px;margin-bottom:14px;
   padding:16px 0 8px;
   border-bottom:1px solid #1C2333}
+.alert-banner{background:rgba(255,71,87,0.1);
+  border:1px solid #FF4757;border-radius:8px;
+  padding:12px 18px;margin:0 24px 16px;
+  font-size:12px;color:#FF4757;
+  display:flex;gap:10px;align-items:center}
 .sat-card{background:#0D1117;
   border:1px solid #1C2333;
   border-radius:12px;margin-bottom:18px;
@@ -55,7 +70,9 @@ header h1{color:#FF6B35;font-size:17px}
   color:white}
 .sat-meta{font-size:11px;color:#8B949E;
   margin-top:3px}
-table{width:100%;border-collapse:collapse}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;
+  min-width:700px}
 th{background:#161B22;color:#8B949E;
   font-size:10px;letter-spacing:1px;
   padding:9px 14px;text-align:left}
@@ -66,57 +83,94 @@ tr:hover td{background:#161B2244}
 .bar-wrap{display:inline-flex;
   align-items:center;gap:8px}
 .bar-bg{background:#1C2333;border-radius:4px;
-  height:6px;width:70px;
+  height:6px;width:60px;
   display:inline-block;vertical-align:middle}
-.bar-fill{height:6px;border-radius:4px;
-  transition:width 0.5s}
+.bar-fill{height:6px;border-radius:4px}
 .badge{padding:3px 9px;border-radius:10px;
   font-size:10px;font-weight:bold}
-.ml-prob{font-size:15px;font-weight:bold}
+.maneuver-box{border-top:1px solid #1C2333;
+  padding:16px 18px;
+  background:rgba(0,255,178,0.03)}
+.maneuver-title{font-size:11px;
+  color:#00FFB2;font-weight:800;
+  letter-spacing:1px;margin-bottom:12px}
+.maneuver-grid{display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px}
+@media(max-width:600px){
+  .maneuver-grid{grid-template-columns:1fr}}
+.maneuver-option{background:#0D1117;
+  border:1px solid #1C2333;
+  border-radius:8px;padding:12px;
+  transition:border 0.2s}
+.maneuver-option.best{
+  border-color:#00FFB2;
+  background:rgba(0,255,178,0.04)}
+.opt-type{font-size:11px;font-weight:800;
+  letter-spacing:1px;margin-bottom:6px}
+.opt-detail{font-size:11px;color:#8B949E;
+  line-height:1.8}
+.opt-detail span{color:#C9D1D9;
+  font-weight:bold}
+.recommended-badge{display:inline-block;
+  background:rgba(0,255,178,0.1);
+  color:#00FFB2;border-radius:4px;
+  padding:2px 8px;font-size:10px;
+  font-weight:800;margin-bottom:6px}
 .chart-box{padding:16px;background:#0D1117}
+
+/* Conjunction Event Log */
+.conj-stats-grid{display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;margin-bottom:16px}
+@media(max-width:768px){
+  .conj-stats-grid{
+    grid-template-columns:repeat(2,1fr)}}
+.conj-table-wrap{overflow-x:auto;
+  background:#0D1117;
+  border:1px solid #1C2333;
+  border-radius:10px}
+.conj-table{min-width:750px}
+.conj-row-maneuver td{
+  background:rgba(255,107,53,0.05)}
+.api-note{background:rgba(0,255,178,0.05);
+  border:1px solid rgba(0,255,178,0.2);
+  border-radius:8px;padding:12px 16px;
+  font-size:11px;color:#00FFB2;
+  margin-top:12px;line-height:1.8}
+
 .hist-stats{display:grid;
   grid-template-columns:1fr 1fr;
   gap:12px;margin-bottom:14px}
-.alert-banner{
-  background:rgba(255,71,87,0.1);
-  border:1px solid #FF4757;
-  border-radius:8px;
-  padding:12px 18px;
-  margin:0 24px 16px;
-  font-size:12px;color:#FF4757;
-  display:flex;gap:10px;align-items:center}
-.ml-badge{
-  background:rgba(129,140,248,0.1);
-  border:1px solid #818CF844;
-  border-radius:6px;
-  padding:2px 8px;
-  font-size:10px;color:#818CF8;
-  margin-left:8px}
+@media(max-width:480px){
+  .hist-stats{grid-template-columns:1fr}}
+.ml-grid{display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px}
+@media(max-width:480px){
+  .ml-grid{grid-template-columns:1fr}}
 footer{text-align:center;padding:16px;
   color:#8B949E;font-size:10px;
   border-top:1px solid #1C2333;
-  margin-top:10px}
+  margin-top:10px;line-height:1.8}
 </style>
 </head>
 <body>
 
 <header>
-  <h1>
-    🛰️ DebrisWatch AI — ISRO Monitor
-   <span class="ml-badge">
-  ML ACTIVE — 100 Trees — 91% Accuracy
-</span>
+  <h1>🛰️ DebrisWatch AI — ISRO Monitor
+    <span class="ml-badge">
+      ML — 100 Trees — 91% Accuracy
+    </span>
   </h1>
   <div class="header-right">
     <div class="live-dot"></div>
     <span style="color:#8B949E;font-size:11px"
-          id="timer">
-      Refresh in 300s
+          id="timer">Refresh in 300s</span>
+    <span style="color:#8B949E;font-size:11px"
+          id="gen-time">
+      {{ data.generated }}
     </span>
-   <span style="color:#8B949E;font-size:11px"
-      id="gen-time">
-  {{ data.generated }}
-</span>
   </div>
 </header>
 
@@ -124,13 +178,15 @@ footer{text-align:center;padding:16px;
   {% if sat.top_ml_prob >= 60 %}
   <div class="alert-banner">
     ⚠️ ML ALERT: {{ sat.name }} —
-    {{ sat.top_ml_prob }}% collision
-    probability detected.
-    Immediate review recommended.
+    {{ sat.top_ml_prob }}% collision prob.
+    {% if sat.top_maneuver %}
+      {{ sat.top_maneuver.message }}
+    {% endif %}
   </div>
   {% endif %}
 {% endfor %}
 
+<!-- Top Stats -->
 <div class="stats">
   <div class="card">
     <div class="val" style="color:#00FFB2">
@@ -152,9 +208,9 @@ footer{text-align:center;padding:16px;
   </div>
   <div class="card">
     <div class="val" style="color:#818CF8">
-      {{ data.total_scans }}
+      {{ data.conj_stats.total_week }}
     </div>
-    <div class="lbl">TOTAL SCANS</div>
+    <div class="lbl">CONJUNCTIONS/WEEK</div>
   </div>
   <div class="card">
     <div class="val" style="color:#F59E0B">
@@ -164,10 +220,11 @@ footer{text-align:center;padding:16px;
   </div>
 </div>
 
+<!-- Satellites -->
 <div class="sec">
   <div class="sec-title">
-    🛰️ INDIAN SATELLITE THREAT STATUS
-    — ML COLLISION PROBABILITY
+    🛰️ SATELLITE THREAT STATUS +
+    MANEUVER CALCULATOR
   </div>
 
   {% for sat in data.satellites %}
@@ -187,7 +244,7 @@ footer{text-align:center;padding:16px;
           </span>
         </div>
         <div class="sat-meta">
-          Altitude: {{ sat.altitude }} km
+          Alt: {{ sat.altitude }} km
           &nbsp;|&nbsp;
           High Risk: {{ sat.high }}
           &nbsp;|&nbsp;
@@ -195,17 +252,19 @@ footer{text-align:center;padding:16px;
         </div>
       </div>
       <div style="text-align:right">
-        <div class="ml-prob"
-             style="color:{{ sat.top_color }}">
+        <div style="font-size:18px;
+          font-weight:bold;
+          color:{{ sat.top_color }}">
           {{ sat.top_ml_prob }}%
         </div>
         <div style="font-size:10px;
                     color:#8B949E">
-          ML collision probability
+          ML collision prob
         </div>
       </div>
     </div>
 
+    <div class="table-wrap">
     <table>
       <thead>
         <tr>
@@ -213,17 +272,18 @@ footer{text-align:center;padding:16px;
           <th>RULE SCORE</th>
           <th>ML PROBABILITY</th>
           <th>LEVEL</th>
-          <th>CLOSEST (km)</th>
-          <th>TIME TO TCA</th>
+          <th>CLOSEST</th>
+          <th>TCA</th>
           <th>ACTION</th>
         </tr>
       </thead>
       <tbody>
       {% for d in sat.debris %}
       <tr>
-        <td style="color:white;font-weight:bold">
-          <span style="color:{{d.graph_color}}">
-            ●
+        <td style="color:white;
+                   font-weight:bold">
+          <span style="color:
+            {{ d.graph_color }}">●
           </span>
           {{ d.name }}
         </td>
@@ -235,15 +295,17 @@ footer{text-align:center;padding:16px;
                 background:{{ d.risk_color }}">
               </div>
             </div>
-            <span style="color:{{d.risk_color}};
-                         font-weight:bold">
+            <span style="color:
+              {{ d.risk_color }};
+              font-weight:bold">
               {{ d.score }}/100
             </span>
           </div>
         </td>
         <td>
-          <span class="ml-prob"
-                style="color:{{ d.ml_color }}">
+          <span style="font-size:14px;
+            font-weight:bold;
+            color:{{ d.ml_color }}">
             {{ d.ml_prob }}%
           </span>
           <span style="color:#8B949E;
@@ -253,10 +315,11 @@ footer{text-align:center;padding:16px;
         </td>
         <td>
           <span class="badge"
-            style="background:{{d.ml_color}}22;
-                   color:{{d.ml_color}};
-                   border:1px solid
-                   {{d.ml_color}}44">
+            style="background:
+              {{ d.ml_color }}22;
+              color:{{ d.ml_color }};
+              border:1px solid
+              {{ d.ml_color }}44">
             {{ d.ml_label }}
           </span>
         </td>
@@ -269,20 +332,20 @@ footer{text-align:center;padding:16px;
         <td style="font-size:11px">
           {% if d.ml_prob >= 70 %}
             <span style="color:#FF4757;
-                         font-weight:bold">
+              font-weight:bold">
               ⚠️ MANEUVER NOW
             </span>
           {% elif d.ml_prob >= 50 %}
             <span style="color:#FF6B35">
-              🔶 PREPARE MANEUVER
+              🔶 PREPARE
             </span>
           {% elif d.ml_prob >= 30 %}
             <span style="color:#F59E0B">
-              👁️ MONITOR CLOSELY
+              👁️ MONITOR
             </span>
           {% else %}
             <span style="color:#34D399">
-              ✅ ROUTINE WATCH
+              ✅ SAFE
             </span>
           {% endif %}
         </td>
@@ -290,6 +353,57 @@ footer{text-align:center;padding:16px;
       {% endfor %}
       </tbody>
     </table>
+    </div>
+
+    {% if sat.top_maneuver and
+          sat.top_maneuver.needed %}
+    <div class="maneuver-box">
+      <div class="maneuver-title">
+        🚀 MANEUVER CALCULATOR —
+        {{ sat.top_maneuver.debris_name }}
+        ({{ sat.top_maneuver.ml_prob }}%)
+        — {{ sat.top_maneuver.window }}
+      </div>
+      <div class="maneuver-grid">
+        {% for opt in
+          sat.top_maneuver.all_options %}
+        <div class="maneuver-option
+          {{'best' if opt.recommended
+             else ''}}">
+          {% if opt.recommended %}
+          <div class="recommended-badge">
+            ✅ RECOMMENDED
+          </div>
+          {% endif %}
+          <div class="opt-type"
+            style="color:{{'#00FFB2'
+              if opt.recommended
+              else '#8B949E'}}">
+            {{ opt.type }}
+          </div>
+          <div class="opt-detail">
+            {{ opt.description }}<br>
+            Delta-V:
+            <span>{{ opt.delta_v }} m/s
+            </span><br>
+            Fuel cost:
+            <span>{{ opt.fuel_kg }} kg
+            </span><br>
+            Execute at:
+            <span>{{ opt.execute_at }}
+            </span><br>
+            New altitude:
+            <span>{{ opt.new_alt }} km
+            </span><br>
+            Safe distance:
+            <span>{{ opt.safe_dist }} km
+            </span>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
 
     <div class="chart-box">
       <canvas id="chart_{{ loop.index }}"
@@ -299,30 +413,231 @@ footer{text-align:center;padding:16px;
   {% endfor %}
 </div>
 
+<!-- ═══ CONJUNCTION EVENT LOG ═══ -->
+<div class="sec">
+  <div class="sec-title">
+    📡 CONJUNCTION EVENT LOG
+    — ISRO SSA STYLE MONITORING
+  </div>
+
+  <!-- Stats Row -->
+  <div class="conj-stats-grid">
+    <div class="card">
+      <div class="val"
+           style="color:#00FFB2">
+        {{ data.conj_stats.total_week }}
+      </div>
+      <div class="lbl">
+        EVENTS THIS WEEK
+      </div>
+    </div>
+    <div class="card">
+      <div class="val"
+           style="color:#FF6B35">
+        {{ data.conj_stats.maneuver_week }}
+      </div>
+      <div class="lbl">
+        MANEUVERS NEEDED
+      </div>
+    </div>
+    <div class="card">
+      <div class="val"
+           style="color:#818CF8">
+        {{ data.conj_stats.total_all }}
+      </div>
+      <div class="lbl">
+        TOTAL EVENTS LOGGED
+      </div>
+    </div>
+    <div class="card">
+      {% if data.conj_stats.closest_ever %}
+      <div class="val"
+           style="color:#FF4757;
+                  font-size:18px">
+        {{data.conj_stats.closest_ever[2]|round(0)|int}}
+        km
+      </div>
+      <div class="lbl">
+        CLOSEST EVER —
+        {{ data.conj_stats.closest_ever[0] }}
+      </div>
+      {% else %}
+      <div class="val"
+           style="color:#34D399">—</div>
+      <div class="lbl">
+        CLOSEST EVER
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Daily chart -->
+  {% if data.daily_dates %}
+  <div class="chart-box"
+       style="border:1px solid #1C2333;
+              border-radius:10px;
+              margin-bottom:14px">
+    <canvas id="conjChart"
+            height="60"></canvas>
+  </div>
+  {% endif %}
+
+  <!-- Event Table -->
+  {% if data.conj_events %}
+  <div class="conj-table-wrap">
+    <table class="conj-table">
+      <thead>
+        <tr>
+          <th>TIME LOGGED</th>
+          <th>SATELLITE</th>
+          <th>DEBRIS</th>
+          <th>DISTANCE</th>
+          <th>TCA</th>
+          <th>ML PROB</th>
+          <th>RISK</th>
+          <th>CAM NEEDED</th>
+          <th>DELTA-V</th>
+          <th>FUEL</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for e in data.conj_events %}
+      <tr class="{{'conj-row-maneuver'
+                   if e.maneuver
+                   else ''}}">
+        <td style="color:#8B949E;
+                   font-size:11px">
+          {{ e.logged_at[:16] }}
+        </td>
+        <td style="color:#00FFB2;
+                   font-weight:bold">
+          {{ e.sat_name }}
+        </td>
+        <td style="color:#C9D1D9">
+          {{ e.debris_name }}
+        </td>
+        <td style="color:white;
+                   font-weight:bold">
+          {{ e.distance_km }} km
+        </td>
+        <td style="color:#8B949E">
+          T+{{ e.tca_hour }}h
+        </td>
+        <td>
+          <span style="color:{{'#FF4757'
+            if e.ml_prob >= 60
+            else '#F59E0B'
+            if e.ml_prob >= 30
+            else '#34D399'}};
+            font-weight:bold">
+            {{ e.ml_prob }}%
+          </span>
+        </td>
+        <td>
+          <span class="badge"
+            style="background:{{'rgba(255,71,87,0.1)'
+              if e.ml_prob >= 60
+              else 'rgba(245,158,11,0.1)'
+              if e.ml_prob >= 30
+              else 'rgba(52,211,153,0.1)'}};
+            color:{{'#FF4757'
+              if e.ml_prob >= 60
+              else '#F59E0B'
+              if e.ml_prob >= 30
+              else '#34D399'}};
+            border:1px solid {{'#FF475744'
+              if e.ml_prob >= 60
+              else '#F59E0B44'
+              if e.ml_prob >= 30
+              else '#34D39944'}}">
+            {{ e.risk_level }}
+          </span>
+        </td>
+        <td style="font-size:11px">
+          {% if e.maneuver %}
+            <span style="color:#FF6B35;
+              font-weight:bold">
+              ⚠️ YES
+            </span>
+          {% else %}
+            <span style="color:#34D399">
+              ✅ NO
+            </span>
+          {% endif %}
+        </td>
+        <td style="color:#C9D1D9">
+          {% if e.maneuver %}
+            {{ e.delta_v }} m/s
+          {% else %}
+            —
+          {% endif %}
+        </td>
+        <td style="color:#C9D1D9">
+          {% if e.maneuver %}
+            {{ e.fuel_kg }} kg
+          {% else %}
+            —
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div style="background:#0D1117;
+    border:1px solid #1C2333;
+    border-radius:10px;padding:30px;
+    text-align:center;color:#8B949E;
+    font-size:12px">
+    No conjunction events logged yet.
+    Run the app a few times and
+    events will appear here 📡
+  </div>
+  {% endif %}
+
+  <div class="api-note">
+    📡 CDM-Compatible API available at:
+    <strong>/api/conjunctions</strong>
+    &nbsp;|&nbsp;
+    Format mirrors international
+    Conjunction Data Message standard
+    &nbsp;|&nbsp;
+    Ready for IS4OM integration
+  </div>
+</div>
+
+<!-- History -->
 <div class="sec">
   <div class="sec-title">
     📈 RISK HISTORY — LAST 7 DAYS
   </div>
   <div class="hist-stats">
     <div class="card">
-      <div class="val" style="color:#818CF8">
+      <div class="val"
+           style="color:#818CF8">
         {{ data.total_scans }}
       </div>
-      <div class="lbl">SCANS COMPLETED</div>
+      <div class="lbl">
+        SCANS COMPLETED
+      </div>
     </div>
     <div class="card">
       {% if data.highest %}
-      <div class="val" style="color:#FF4757">
+      <div class="val"
+           style="color:#FF4757">
         {{ data.highest[2] }}/100
       </div>
       <div class="lbl">
-        HIGHEST EVER — {{ data.highest[0] }}
+        HIGHEST EVER —
+        {{ data.highest[0] }}
       </div>
       {% else %}
-      <div class="val" style="color:#34D399">
-        —
+      <div class="val"
+           style="color:#34D399">—</div>
+      <div class="lbl">
+        HIGHEST RISK EVER
       </div>
-      <div class="lbl">HIGHEST RISK EVER</div>
       {% endif %}
     </div>
   </div>
@@ -330,41 +645,44 @@ footer{text-align:center;padding:16px;
   <div class="chart-box"
        style="border:1px solid #1C2333;
               border-radius:10px">
-    <canvas id="histChart" height="55"></canvas>
+    <canvas id="histChart"
+            height="55"></canvas>
   </div>
   {% else %}
   <div style="background:#0D1117;
-              border:1px solid #1C2333;
-              border-radius:10px;
-              padding:30px;text-align:center;
-              color:#8B949E;font-size:12px">
-    Run the app a few more times and
-    history will appear here 📊
+    border:1px solid #1C2333;
+    border-radius:10px;padding:30px;
+    text-align:center;color:#8B949E;
+    font-size:12px">
+    Run app a few more times →
+    history appears here 📊
   </div>
   {% endif %}
 </div>
 
-    <div class="sec">
+<!-- ML Info -->
+<div class="sec">
   <div class="sec-title">
     🤖 ML MODEL INFO
   </div>
-  <div style="display:grid;
-              grid-template-columns:repeat(3,1fr);
-              gap:12px">
+  <div class="ml-grid">
     <div class="card">
-      <div class="val" style="color:#818CF8">
+      <div class="val"
+           style="color:#818CF8">
         Random Forest
       </div>
       <div class="lbl">MODEL TYPE</div>
     </div>
     <div class="card">
-      <div class="val" style="color:#00FFB2">
+      <div class="val"
+           style="color:#00FFB2">
         100
       </div>
       <div class="lbl">DECISION TREES</div>
     </div>
     <div class="card">
-      <div class="val" style="color:#F59E0B">
+      <div class="val"
+           style="color:#F59E0B">
         5
       </div>
       <div class="lbl">INPUT FEATURES</div>
@@ -374,98 +692,150 @@ footer{text-align:center;padding:16px;
 
 <footer>
   DebrisWatch AI &nbsp;|&nbsp;
-  CARTOSAT-3, RESOURCESAT-2,
-  RISAT-2BR1, OCEANSAT-3, GSAT-19
-  &nbsp;|&nbsp;
-  NASA Space-Track + Random Forest ML
-  &nbsp;|&nbsp;
+  CARTOSAT-3 · RESOURCESAT-2 ·
+  RISAT-2BR1 · OCEANSAT-3 · GSAT-19
+  <br>
+  NASA Space-Track Live Data ·
+  Random Forest ML ·
+  Maneuver Calculator ·
+  Conjunction Event Log
+  <br>
+  CDM-Compatible API ·
+  IS4OM Integration Ready ·
   Built by CSE Student 🛰️
 </footer>
 
 <script>
-// Auto refresh — soft reload every 5 mins
+// Timer
 var secs  = 300;
 var timer = document.getElementById("timer");
 setInterval(function(){
   secs--;
   if(secs <= 0){
     secs = 300;
-    timer.textContent = "Refreshing...";
-    // Soft refresh — only update stats
-    // not full page reload
-    // ✅ Fixed — does full page reload when timer hits 0
-    location.reload();
+    fetch("/api/ping")
+      .then(function(r){ return r.json(); })
+      .then(function(d){
+        var g = document.getElementById(
+          "gen-time"
+        );
+        if(g) g.textContent = d.time;
+      }).catch(function(){});
   }
-  timer.textContent = "Refresh in " + secs + "s";
+  timer.textContent = "Refresh in "+secs+"s";
 }, 1000);
+
+// Satellite distance charts
 var allSats = {{ data.satellites | tojson }};
 var hours   = [];
-for(var i=0;i<=72;i++) hours.push("T+"+i+"h");
+for(var i=0;i<=72;i++)
+  hours.push("T+"+i+"h");
 
 allSats.forEach(function(sat, idx){
   var datasets = sat.debris.map(function(d){
     return {
-      label:           d.name +
-                       " (" + d.ml_prob + "% ML)",
-      data:            d.hourly,
+      label: d.name+"("+d.ml_prob+"%)",
+      data:  d.hourly,
       borderColor:     d.graph_color,
       backgroundColor: "transparent",
-      borderWidth:     2,
-      pointRadius:     0,
-      tension:         0.3
+      borderWidth: 2,
+      pointRadius: 0,
+      tension: 0.3
     };
   });
   var ctx = document.getElementById(
     "chart_"+(idx+1)
-  ).getContext("2d");
-  new Chart(ctx,{
-    type:"line",
-    data:{labels:hours, datasets:datasets},
+  );
+  if(ctx){
+    new Chart(ctx.getContext("2d"),{
+      type:"line",
+      data:{labels:hours,datasets:datasets},
+      options:{responsive:true,
+        plugins:{legend:{labels:{
+          color:"#C9D1D9",
+          font:{size:10},padding:10}}},
+        scales:{
+          x:{ticks:{color:"#8B949E",
+            maxTicksLimit:10,
+            font:{size:9}},
+            grid:{color:"#1C2333"}},
+          y:{ticks:{color:"#8B949E"},
+            grid:{color:"#1C2333"},
+            title:{display:true,
+              text:"Distance (km)",
+              color:"#8B949E",
+              font:{size:10}}}
+        }
+      }
+    });
+  }
+});
+
+// Conjunction daily chart
+var cDates = {{ data.daily_dates | tojson }};
+var cCounts= {{ data.daily_counts | tojson }};
+var cMans  = {{ data.daily_mans  | tojson }};
+var cEl    = document.getElementById(
+  "conjChart"
+);
+if(cEl && cDates.length > 0){
+  new Chart(cEl.getContext("2d"),{
+    type:"bar",
+    data:{
+      labels: cDates,
+      datasets:[{
+        label: "Conjunction Events",
+        data:  cCounts,
+        backgroundColor: "rgba(0,255,178,0.3)",
+        borderColor:     "#00FFB2",
+        borderWidth: 1,
+        borderRadius: 4,
+      },{
+        label: "Maneuvers Needed",
+        data:  cMans,
+        backgroundColor: "rgba(255,107,53,0.4)",
+        borderColor:     "#FF6B35",
+        borderWidth: 1,
+        borderRadius: 4,
+      }]
+    },
     options:{
       responsive:true,
-      plugins:{
-        legend:{
-          labels:{color:"#C9D1D9",
-            font:{size:10},padding:12}
-        }
-      },
+      plugins:{legend:{labels:{
+        color:"#C9D1D9",font:{size:10}}}},
       scales:{
-        x:{ticks:{color:"#8B949E",
-          maxTicksLimit:10,font:{size:9}},
+        x:{ticks:{color:"#8B949E"},
           grid:{color:"#1C2333"}},
         y:{ticks:{color:"#8B949E"},
           grid:{color:"#1C2333"},
           title:{display:true,
-            text:"Distance (km)",
-            color:"#8B949E",
-            font:{size:10}}}
+            text:"Number of Events",
+            color:"#8B949E"}}
       }
     }
   });
-});
+}
 
-var histData  = {{ data.hist_data  | tojson }};
-var satColors = {{ data.sat_colors | tojson }};
+// History chart
+var histData  ={{ data.hist_data  | tojson }};
+var satColors ={{ data.sat_colors | tojson }};
 var histEl    = document.getElementById(
   "histChart"
 );
-if(histEl && Object.keys(histData).length > 0){
-  var hds  = [];
-  var ci   = 0;
+if(histEl && Object.keys(histData).length>0){
+  var hds=[];var ci=0;
   for(var sn in histData){
     hds.push({
       label:           sn,
       data:            histData[sn].scores,
       borderColor:     satColors[ci],
       backgroundColor: satColors[ci]+"22",
-      borderWidth:     2,
-      pointRadius:     4,
-      tension:         0.3,
-      fill:            false
+      borderWidth:2,pointRadius:4,
+      tension:0.3,fill:false
     });
     ci++;
   }
-  var allDates = [];
+  var allDates=[];
   for(var s in histData){
     histData[s].dates.forEach(function(d){
       if(allDates.indexOf(d)===-1)
@@ -476,19 +846,18 @@ if(histEl && Object.keys(histData).length > 0){
   new Chart(histEl.getContext("2d"),{
     type:"line",
     data:{labels:allDates,datasets:hds},
-    options:{
-      responsive:true,
+    options:{responsive:true,
       plugins:{legend:{labels:{
         color:"#C9D1D9",font:{size:10}}}},
       scales:{
         x:{ticks:{color:"#8B949E"},
-           grid:{color:"#1C2333"}},
+          grid:{color:"#1C2333"}},
         y:{min:0,max:100,
-           ticks:{color:"#8B949E"},
-           grid:{color:"#1C2333"},
-           title:{display:true,
-             text:"Max Risk Score",
-             color:"#8B949E"}}
+          ticks:{color:"#8B949E"},
+          grid:{color:"#1C2333"},
+          title:{display:true,
+            text:"Max Risk Score",
+            color:"#8B949E"}}
       }
     }
   });

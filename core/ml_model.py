@@ -210,7 +210,7 @@ def get_model_stats():
 
     return {
         "type":       "Random Forest",
-        "estimators": 100,
+        "estimators": "100",
         "features":   [
             "Min Distance",
             "Relative Speed",

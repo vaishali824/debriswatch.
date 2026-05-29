@@ -1,40 +1,40 @@
 ============================================================
         🛰️ DEBRISWATCH AI — ALERT REPORT
-        Generated: 2026-05-21 08:59 UTC
+        Generated: 2026-05-27 11:13 UTC
 ============================================================
 
   🔴 CRITICAL / HIGH : 4
-  🟠 MEDIUM          : 12
-  🟢 SAFE            : 9
+  🟠 MEDIUM          : 10
+  🟢 SAFE            : 11
 
   TOP THREATS
 ------------------------------------------------------------
 
+  🛰️ Satellite : RISAT-2BR1
+  ☄️ Debris    : DEBRIS-2
+  📊 Score     : 80/100
+  ⚠️ Level     : CRITICAL
+  📏 Distance  : 398.4 km
+  ⏱️ Time      : T+13h
+  🚨 Action    : ⚠️ MANEUVER NOW
+------------------------------------------------------------
+
   🛰️ Satellite : CARTOSAT-3
-  ☄️ Debris    : DEBRIS-D
+  ☄️ Debris    : DEBRIS-3
   📊 Score     : 63/100
   ⚠️ Level     : HIGH
-  📏 Distance  : 2224.5 km
-  ⏱️ Time      : T+6h
+  📏 Distance  : 1330.4 km
+  ⏱️ Time      : T+5h
   🚨 Action    : PREPARE MANEUVER
 ------------------------------------------------------------
 
-  🛰️ Satellite : GSAT-19
-  ☄️ Debris    : DEBRIS-B
-  📊 Score     : 38/100
-  ⚠️ Level     : LOW
-  📏 Distance  : 36075.8 km
+  🛰️ Satellite : CARTOSAT-3
+  ☄️ Debris    : DEBRIS-5
+  📊 Score     : 63/100
+  ⚠️ Level     : HIGH
+  📏 Distance  : 2811.7 km
   ⏱️ Time      : T+1h
-  🚨 Action    : ROUTINE WATCH
-------------------------------------------------------------
-
-  🛰️ Satellite : RESOURCESAT-2
-  ☄️ Debris    : DEBRIS-A
-  📊 Score     : 33/100
-  ⚠️ Level     : LOW
-  📏 Distance  : 35250.6 km
-  ⏱️ Time      : T+10h
-  🚨 Action    : ROUTINE WATCH
+  🚨 Action    : PREPARE MANEUVER
 ------------------------------------------------------------
 
 ============================================================

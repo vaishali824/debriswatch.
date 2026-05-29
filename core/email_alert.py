@@ -11,9 +11,9 @@ from datetime import datetime
 # YOUR EMAIL SETTINGS
 # Replace with your details
 # ─────────────────────────────────
-SENDER_EMAIL    = "your_email@gmail.com"
-SENDER_PASSWORD = "your_16_digit_app_password"
-RECEIVER_EMAIL  = "your_email@gmail.com"
+SENDER_EMAIL    = "provaishali8@gmail.com"
+SENDER_PASSWORD = "huiojshihgdpnhle"
+RECEIVER_EMAIL  = "provaishali8@gmail.com"
 
 # Alert threshold
 # Send email if ML probability > this value

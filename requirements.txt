@@ -3,3 +3,7 @@ sgp4
 numpy
 matplotlib
 requests
+streamlit
+scikit-learn
+numpy
+pandas
